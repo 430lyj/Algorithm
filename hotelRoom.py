@@ -17,3 +17,4 @@ def solution(k, room_number):
     return answer
 
 print(solution(10, [1, 3, 4, 1, 3, 1]))
+#출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
