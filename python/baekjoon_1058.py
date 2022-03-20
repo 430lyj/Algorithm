@@ -9,25 +9,23 @@ for graph in graph_list:
         if graph[i] == 'Y':
             temp.append(i)
     graph_link.append(temp)
-print(graph_link)
 answer = []
 
-stack = []
 visited = [0] * n
 for i in range(n):
     count = 0
+    stack = []
     visited = [0] * n
-    for j in graph_link[i]:
-        stack.append((i, j))
-    while stack:
-        x, y = stack.pop()
-        visited[y] = 1
+    visited[i] = 1
+    for j in graph_link[i]: # 1차 친구들만 카운트
+        stack.append(j) 
+        visited[j] = 1
         count += 1
-        for point in graph_link[y]:
-            print(point)
-            if visited[point] == 0:
-                stack.append((y, point))
+    for l in stack:
+        for k in graph_link[l]:
+            if visited[k] != 1:
+                visited[k] = 1
+                count += 1
     answer.append(count)
 
-print(*answer)
 print(max(answer))
