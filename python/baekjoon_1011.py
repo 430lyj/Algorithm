@@ -20,5 +20,4 @@ for _ in range(T):
 
     if distance < 4:
         count = distance
-
     print(count)
