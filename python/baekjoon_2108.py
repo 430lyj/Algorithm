@@ -1,28 +1,25 @@
-from audioop import avg
-
-
-N = int(input())
+import sys
 from collections import Counter
+input = sys.stdin.readline
+N = int(input())
 
 arr = []
 for _ in range(N):
-    arr.append(int(input()))
+    arr.append(int(input())) 
 
-sorted_arr = arr.sort()
-print(sum(arr)// N)
+print(round(sum(arr)/N))
+
+arr.sort()
 mid = N // 2
-dic = {}
-max_count, max_val = 0, 0
-for elem in arr:
-    if elem in dic.keys():
-        dic[elem] += 1
+print(arr[mid])
+
+nums = Counter(arr).most_common()
+if len(nums) > 1:
+    if nums[0][1] == nums[1][1]:
+        print(nums[1][0])
     else:
-        dic[elem] = 1
-    if dic[elem] > max_count:
-        max_count = dic[elem]
-        max_val = elem
-
-
-print(max_val)
-print(sorted_arr[mid-1])
-print(sorted_arr[-1] - sorted_arr[0])
+        print(nums[0][0])
+else:
+    print(nums[0][0])
+    
+print(arr[-1] - arr[0])
