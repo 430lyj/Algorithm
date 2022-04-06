@@ -1,36 +1,41 @@
-import sys
-MAX_INT = sys.maxsize
+import sys, heapq
+input = sys.stdin.readline
 
 n = int(input())
 m = int(input())
-buses = [[] for _ in range(n)]
-arr = [tuple(map(int, input().split())) for _ in range(m)]
-start, end = tuple(map(int, input().split()))
+graph = [[] for _ in range(n + 1)]
 
-for city1, city2, price in arr:
-    buses[city1-1].append((city2-1, price))
+for _ in range(m):
+    a, b, c = map(int, input().split())
+    graph[a].append((b, c))
 
-start -= 1  # 인덱스화
-end -= 1    # 인덱스화
-minimum_price = [[MAX_INT, []] for _ in range(n)] 
-minimum_price[start] = [0, [start]]
-visited = [0] * n
-visited[start] = 1
-last_visited = start
-while last_visited != end:
-    minimum_dist = MAX_INT
-    candidate = last_visited
-    for city, price in buses[last_visited]:
-        if visited[city] == 0 and minimum_price[city][0] > price + minimum_price[last_visited][0]:
-            minimum_price[city][0] = price + minimum_price[last_visited][0]
-            minimum_price[city][1] = minimum_price[last_visited][1] + [city]
-            if minimum_price[city][0] < minimum_dist:
-                minimum_dist = minimum_price[city][0]
-                candidate = city
-                                                                                                                  
-    last_visited = candidate 
-    visited[last_visited] = 1
-print(minimum_price[end][0])
-print(len(minimum_price[end][1]))
-for i in minimum_price[end][1]:
-    print(i+1, end=" ")
+start, end = map(int, input().split())
+
+# 가장 가까운 노드를 기록
+nearnest = [start] * (n + 1)
+distance = [1e9] * (n + 1)
+
+q = [(0, start)]
+while q:
+    dist, now = heapq.heappop(q)
+    if dist > distance[now]:
+        continue
+    
+    for next, nextDist in graph[now]:
+        cost = nextDist + dist
+        if cost < distance[next]:
+            distance[next], nearnest[next] = cost, now
+            heapq.heappush(q, (cost, next))
+    
+ans = []
+tmp = end
+while tmp != start:
+    ans.append(str(tmp))
+    tmp = nearnest[tmp]
+
+ans.append(str(start))
+ans.reverse()
+
+print(distance[end])
+print(len(ans))
+print(" ".join(ans))
