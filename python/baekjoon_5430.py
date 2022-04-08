@@ -2,24 +2,17 @@ def solution(n, cmds, arr):
     rev = False
     for cmd in cmds:
         if cmd == 'R':
-            if rev == False:
-                rev = True
-            else:
-                rev = False
-        elif cmd == 'D':
-            if len(arr) > 0:
-                if rev == False:
-                    del arr[0]
-                else:
-                    del arr[-1]
+            rev = not rev
+        else:
+            if arr:
+                delete_idx = 0 if rev == False else -1
+                del arr[delete_idx]
             else:
                 print('error')
                 return
     if rev == True:
         arr.reverse()
-        print('[' + ','.join(arr) + ']')
-    else:
-        print('[' + ','.join(arr) + ']')
+    print('[' + ','.join(arr) + ']')
 
 
 T = int(input())
