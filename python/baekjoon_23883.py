@@ -1,3 +1,5 @@
+# 알고리즘 수업 - 선택 정렬 3
+
 n, k = tuple(map(int, input().split()))
 arr = [0] + list(map(int, input().split()))
 sorted_arr = sorted(arr)
